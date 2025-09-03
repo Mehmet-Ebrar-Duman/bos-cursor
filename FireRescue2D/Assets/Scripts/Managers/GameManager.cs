@@ -49,6 +49,7 @@ namespace FireRescue2D.Managers
 
             currentWaterAmount = Mathf.Max(0f, currentWaterAmount - amountToConsume);
             OnWaterChanged?.Invoke(currentWaterAmount, maxWaterCapacity);
+            TrySendState();
             return true;
         }
 
@@ -56,18 +57,21 @@ namespace FireRescue2D.Managers
         {
             currentWaterAmount = Mathf.Clamp(currentWaterAmount + amount, 0f, maxWaterCapacity);
             OnWaterChanged?.Invoke(currentWaterAmount, maxWaterCapacity);
+            TrySendState();
         }
 
         public void SetWaterToFull()
         {
             currentWaterAmount = maxWaterCapacity;
             OnWaterChanged?.Invoke(currentWaterAmount, maxWaterCapacity);
+            TrySendState();
         }
 
         public void AddScore(int points)
         {
             currentScore = Mathf.Max(0, currentScore + points);
             OnScoreChanged?.Invoke(currentScore);
+            TrySendState();
         }
 
         public bool SpendScore(int points)
@@ -75,6 +79,7 @@ namespace FireRescue2D.Managers
             if (currentScore < points) return false;
             currentScore -= points;
             OnScoreChanged?.Invoke(currentScore);
+            TrySendState();
             return true;
         }
 
@@ -82,12 +87,14 @@ namespace FireRescue2D.Managers
         {
             seedCount = Mathf.Max(0, seedCount + amount);
             OnInventoryChanged?.Invoke(seedCount, saplingCount);
+            TrySendState();
         }
 
         public void AddSaplings(int amount)
         {
             saplingCount = Mathf.Max(0, saplingCount + amount);
             OnInventoryChanged?.Invoke(seedCount, saplingCount);
+            TrySendState();
         }
 
         public bool TryUseSeed()
@@ -95,6 +102,7 @@ namespace FireRescue2D.Managers
             if (seedCount <= 0) return false;
             seedCount--;
             OnInventoryChanged?.Invoke(seedCount, saplingCount);
+            TrySendState();
             return true;
         }
 
@@ -103,6 +111,7 @@ namespace FireRescue2D.Managers
             if (saplingCount <= 0) return false;
             saplingCount--;
             OnInventoryChanged?.Invoke(seedCount, saplingCount);
+            TrySendState();
             return true;
         }
 
@@ -117,6 +126,12 @@ namespace FireRescue2D.Managers
             OnScoreChanged?.Invoke(currentScore);
             OnWaterChanged?.Invoke(currentWaterAmount, maxWaterCapacity);
             OnInventoryChanged?.Invoke(seedCount, saplingCount);
+            TrySendState();
+        }
+
+        private void TrySendState()
+        {
+            Integration.WebGLBridge.SendState(currentScore, currentWaterAmount, maxWaterCapacity, seedCount, saplingCount);
         }
     }
 }

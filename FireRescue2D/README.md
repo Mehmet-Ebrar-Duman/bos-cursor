@@ -52,12 +52,16 @@ A 2D firefighting game prototype for post-wildfire education and awareness. Exti
 ```
 Assets/
   Scripts/
+    Integration/
+      WebGLBridge.cs
+      WebGLMessageReceiver.cs
     Managers/
       GameManager.cs
       UIManager.cs
     Player/
       PlayerController.cs
       WaterStream.cs
+      PlayerControllerSpeedBoost.cs
     World/
       Fire.cs
       FireSpawner.cs
@@ -69,8 +73,23 @@ Assets/
     Economy/
       Shop.cs
       PlantingSystem.cs
+  Plugins/
+    WebGL/
+      WebBridge.jslib
+web/
+  index.html
+  app.js
+  styles.css
 ```
 
 ### Licensing
 This code is provided as-is for educational purposes under the MIT License. Provide your own art/audio.
+
+### Web (Frontend + WebGL) Integration
+1) Switch Platform to WebGL in Unity (File > Build Settings).
+2) Add a GameObject named `WebBridge` in your scene and attach `WebGLMessageReceiver.cs` to it.
+3) Ensure `Assets/Plugins/WebGL/WebBridge.jslib` exists so Unity includes it in builds.
+4) Build the project for WebGL; Unity generates a `Build` folder.
+5) Copy the generated `Build` into `web/Build` (or configure your own loader inside `index.html`).
+6) Open `web/index.html` in a static server (e.g., `npx serve web`). The HUD updates automatically from Unity, and buttons call Unity methods.
 

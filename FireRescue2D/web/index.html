@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fire Rescue 2D - Web</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Fire Rescue 2D</h1>
+    <p>Yangın sonrası farkındalık oyunu - Teknofest Projesi</p>
+  </header>
+
+  <main>
+    <section class="hud">
+      <div class="stat"><span>Skor:</span> <strong id="score">0</strong></div>
+      <div class="stat"><span>Su:</span> <strong id="water">0/0</strong></div>
+      <div class="stat"><span>Envanter:</span> <strong id="inv">Tohum 0 | Fidan 0</strong></div>
+      <div id="toast" class="toast" hidden></div>
+    </section>
+
+    <section class="controls">
+      <button id="btn-plant">Ekim Modu</button>
+      <button id="btn-buy-seed">Tohum Satın Al</button>
+      <button id="btn-buy-sapling">Fidan Satın Al</button>
+      <button id="btn-refill">Su Doldur</button>
+      <button id="btn-addscore">+10 Skor</button>
+    </section>
+
+    <section class="game">
+      <div id="unity-container">
+        <!-- Unity WebGL build dosyalarınızı buraya yerleştirin -->
+        <p class="placeholder">Unity WebGL build dosyalarınızı (Build klasörü) bu alana kopyalayın ve index.html'den yükleyin.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>© Teknofest Fire Rescue 2D</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

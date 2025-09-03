@@ -77,12 +77,24 @@ namespace FireRescue2D.Player
             if (Input.GetKeyDown(KeyCode.P))
             {
                 isPlantModeActive = !isPlantModeActive;
+                Managers.GameManager.Instance?.OnInventoryChanged?.Invoke(
+                    Managers.GameManager.Instance.GetSeedCount(),
+                    Managers.GameManager.Instance.GetSaplingCount()
+                );
+                Integration.WebGLBridge.ShowToast(isPlantModeActive ? "Plant mode ON" : "Plant mode OFF");
             }
         }
 
         public bool IsPlantModeActive()
         {
             return isPlantModeActive;
+        }
+
+        // Exposed for WebGLMessageReceiver
+        public void TogglePlantMode()
+        {
+            isPlantModeActive = !isPlantModeActive;
+            Integration.WebGLBridge.ShowToast(isPlantModeActive ? "Plant mode ON" : "Plant mode OFF");
         }
     }
 }
