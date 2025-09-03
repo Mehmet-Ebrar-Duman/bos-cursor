@@ -133,6 +133,11 @@ namespace FireRescue2D.Managers
         {
             Integration.WebGLBridge.SendState(currentScore, currentWaterAmount, maxWaterCapacity, seedCount, saplingCount);
         }
+
+        public void BroadcastState()
+        {
+            NotifyAll();
+        }
     }
 }
 

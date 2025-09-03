@@ -93,3 +93,11 @@ This code is provided as-is for educational purposes under the MIT License. Prov
 5) Copy the generated `Build` into `web/Build` (or configure your own loader inside `index.html`).
 6) Open `web/index.html` in a static server (e.g., `npx serve web`). The HUD updates automatically from Unity, and buttons call Unity methods.
 
+### Backend (Node.js) Integration
+1) Requirements: Node.js 18+
+2) Install deps: `cd server && npm i`
+3) Start server: `npm run dev` (serves `web/` and provides REST API)
+4) Open `http://localhost:3000/`
+5) Unity -> Server: Add `ServerClient.cs` to a GameObject, set `baseUrl` to your server URL.
+6) Frontend Leaderboard: `web` sayfasında isim girip “Skoru Kaydet” ile POST edilir, liste otomatik yenilenir.
+

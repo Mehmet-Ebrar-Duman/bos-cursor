@@ -8,7 +8,10 @@ window.app = (function(){
     btnSeed: document.getElementById('btn-buy-seed'),
     btnSapling: document.getElementById('btn-buy-sapling'),
     btnRefill: document.getElementById('btn-refill'),
-    btnAddScore: document.getElementById('btn-addscore')
+    btnAddScore: document.getElementById('btn-addscore'),
+    nameInput: document.getElementById('player-name'),
+    btnSubmit: document.getElementById('btn-submit'),
+    leaderboard: document.getElementById('leaderboard')
   };
 
   function updateUI(detail) {
@@ -63,5 +66,40 @@ window.app = (function(){
   els.btnAddScore?.addEventListener('click', () => sendMessage('WebBridge', 'JS_AddScore', '10'));
 
   return { updateUI, toast };
+})();
+
+// Simple backend integration
+(function(){
+  const API = `${location.origin}`;
+  async function loadLeaderboard(){
+    try {
+      const res = await fetch(`${API}/api/leaderboard`);
+      const list = await res.json();
+      const box = document.getElementById('leaderboard');
+      if (!box) return;
+      box.innerHTML = '';
+      list.slice(0, 20).forEach((e, i) => {
+        const li = document.createElement('li');
+        li.textContent = `${i+1}. ${e.name} — ${e.score}`;
+        box.appendChild(li);
+      });
+    } catch(e){ console.warn('loadLeaderboard', e); }
+  }
+
+  async function submitScore(){
+    const name = document.getElementById('player-name')?.value || 'Anon';
+    try {
+      await fetch(`${API}/api/leaderboard`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, score: Number(document.getElementById('score')?.textContent || 0) })
+      });
+      await loadLeaderboard();
+      window.app.toast('Skor kaydedildi');
+    } catch(e){ console.warn('submitScore', e); }
+  }
+
+  document.getElementById('btn-submit')?.addEventListener('click', submitScore);
+  loadLeaderboard();
 })();
 
